@@ -44,13 +44,17 @@ from lm_eval.models.utils_hf import (
     stop_sequences_criteria,
 )
 
-import lm_engine.hf_models
-from lm_engine.kernels import enable_kernels, Kernel
+try:
+    import lm_engine.hf_models
 
-enable_kernels([Kernel.mamba2_ssm, Kernel.sonicmoe, Kernel.gru, Kernel.rnn]).__enter__()
-# try:
-# except ImportError:
-#     pass
+    from lm_engine.kernels import enable_kernels, Kernel
+except ImportError:
+    print("unable to import lm-engine")
+
+try:
+    enable_kernels([Kernel.mamba2_ssm, Kernel.sonicmoe, Kernel.gru, Kernel.rnn]).__enter__()
+except ImportError:
+    print("failed to enable the kernels")
 
 
 if TYPE_CHECKING:
