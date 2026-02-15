@@ -15,6 +15,15 @@ from lm_eval._cli.utils import (
 )
 
 
+def _parse_json_or_load_json(x: str) -> dict:
+    if os.path.isfile(x):
+        x = json.load(open(x, "r"))
+    else:
+        x = json.loads(x)
+
+    return x
+
+
 class Run(SubCommand):
     """Command for running language model evaluation."""
 
@@ -323,7 +332,7 @@ class Run(SubCommand):
         )
         advanced_group.add_argument(
             "--metadata",
-            type=lambda x: json.load(open(x, "r")),
+            type=_parse_json_or_load_json,
             default=None,
             metavar="<arg>",
             help=textwrap.dedent(
