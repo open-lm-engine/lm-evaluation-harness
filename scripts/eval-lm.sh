@@ -7,4 +7,4 @@ accelerate launch -m lm_eval \
     --model_args dtype=bfloat16,pretrained=$1 \
     --tasks wikitext,openbookqa,piqa,sciq,arc_easy,arc_challenge,boolq,copa,hellaswag,winogrande,race,lambada_openai \
     --batch_size auto \
-    --output_path results-$YAML
+    --output_path $2

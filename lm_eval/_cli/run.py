@@ -323,7 +323,7 @@ class Run(SubCommand):
         )
         advanced_group.add_argument(
             "--metadata",
-            type=json.loads,
+            type=lambda x: json.load(open(x, "r")),
             default=None,
             metavar="<arg>",
             help=textwrap.dedent(
