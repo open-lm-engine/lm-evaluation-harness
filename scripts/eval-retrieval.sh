@@ -6,6 +6,6 @@ accelerate launch -m lm_eval \
     --model hf \
     --model_args dtype=bfloat16,pretrained=$1,max_length=32768 \
     --tasks fda,swde,based_nq_2048,based_triviaqa,squad_completion,based_drop \
-    --metadata=metadata.json \
+    --metadata=sequence_lengths.json \
     --batch_size auto \
     --output_path $2
