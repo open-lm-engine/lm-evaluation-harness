@@ -14,6 +14,8 @@ from datasets import Dataset, load_dataset
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel, PreTrainedTokenizer
 
+import lm_engine.hf_models
+
 
 class PerplexityEvaluator:
     def __init__(
@@ -173,21 +175,17 @@ class PerplexityEvaluator:
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate perplexity")
-    parser.add_argument("-p", "--path", type=str, default="fla-hub/gla-1.3B-100B")
+    parser.add_argument(
+        "-p", "--path", type=str, default="/proj/checkpoints/bharat/mayank/checkpoints-400m/transformer-400m"
+    )
     parser.add_argument("-d", "--data", type=str, default="fla-hub/pg19")
     parser.add_argument("-s", "--split", type=str, default="train")
     parser.add_argument("-n", "--column_name", type=str, default="text")
     parser.add_argument("--block_size", type=int, default=28672)
     parser.add_argument("--bucket_size", type=int, default=2048)
     parser.add_argument("--batch_size", type=int, default=1)
-    parser.add_argument("--device", type=str, default=None)
     args = parser.parse_args()
 
-    # Set device and random seed
-    if args.device is None:
-        from fla.utils import device
-    else:
-        device = args.device
     torch.manual_seed(0)
 
     # Load model and tokenizer
@@ -196,7 +194,7 @@ def main():
     model = (
         AutoModelForCausalLM.from_pretrained(
             args.path,
-            device_map={"": device},
+            device_map={"": torch.cuda.current_device()},
         )
         .bfloat16()
         .eval()
@@ -225,7 +223,7 @@ def main():
     evaluator = PerplexityEvaluator(
         model=model,
         tokenizer=tokenizer,
-        device=device,
+        device=torch.cuda.current_device(),
         block_size=args.block_size,
         bucket_size=args.bucket_size,
         batch_size=args.batch_size,
