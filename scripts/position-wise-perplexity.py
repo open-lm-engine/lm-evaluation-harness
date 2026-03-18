@@ -8,8 +8,7 @@ import torch
 from datasets import Dataset, load_dataset
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel, PreTrainedTokenizer
-
-from fla.modules.fused_cross_entropy import FusedCrossEntropyLoss
+import torch.nn as nn
 
 
 class PerplexityEvaluator:
@@ -28,7 +27,7 @@ class PerplexityEvaluator:
         self.block_size = block_size
         self.bucket_size = bucket_size
         self.batch_size = batch_size
-        self.loss_fct = FusedCrossEntropyLoss(reduction='sum')
+        self.loss_fct = nn.CrossEntropy(reduction='sum')
 
     @staticmethod
     def preprocess(
@@ -108,6 +107,7 @@ class PerplexityEvaluator:
             'blocks': blocks,
         }
 
+    @torch.no_grad()
     def evaluate(self, dataset: Dataset) -> dict[str, Any]:
         """Evaluate perplexity on the entire dataset"""
         total_loss = 0
