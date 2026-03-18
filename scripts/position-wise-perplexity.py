@@ -175,9 +175,7 @@ class PerplexityEvaluator:
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate perplexity")
-    parser.add_argument(
-        "-p", "--path", type=str, default="/proj/checkpoints/bharat/mayank/checkpoints-400m/transformer-400m"
-    )
+    parser.add_argument("-p", "--path", type=str, required=True)
     parser.add_argument("-d", "--data", type=str, default="fla-hub/pg19")
     parser.add_argument("-s", "--split", type=str, default="train")
     parser.add_argument("-n", "--column_name", type=str, default="text")
