@@ -187,6 +187,7 @@ def main():
     torch.manual_seed(0)
 
     # Load model and tokenizer
+    # TODO add dtype
     print(f"Loading model {args.path}")
     tokenizer = AutoTokenizer.from_pretrained(args.path)
     model = (
