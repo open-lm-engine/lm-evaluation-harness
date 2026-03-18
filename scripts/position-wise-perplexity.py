@@ -230,8 +230,7 @@ def main():
         batch_size=args.batch_size,
     )
 
-    with torch.no_grad():
-        results = evaluator.evaluate(dataset)
+    results = evaluator.evaluate(dataset)
 
     # Print results
     print("\nEvaluation Results:")
