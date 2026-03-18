@@ -199,6 +199,7 @@ def main():
         .bfloat16()
         .eval()
     )
+    model = torch.compile(model)
     print(f"{model}")
 
     # Load dataset
