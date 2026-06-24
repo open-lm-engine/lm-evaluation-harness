@@ -44,7 +44,7 @@ from lm_eval.models.utils_hf import (
     stop_sequences_criteria,
 )
 
-import lm_engine.hf_models
+import lm_engine
 
 
 if TYPE_CHECKING:
