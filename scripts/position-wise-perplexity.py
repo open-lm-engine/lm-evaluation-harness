@@ -14,7 +14,10 @@ from datasets import Dataset, load_dataset
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel, PreTrainedTokenizer
 
-import lm_engine
+from lm_engine.training.hf_adapter import register_model_classes
+
+
+register_model_classes()
 
 
 class PerplexityEvaluator:
